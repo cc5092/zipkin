@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS zipkin2.span (
     AND default_time_to_live =  604800
     AND gc_grace_seconds = 3600
     AND read_repair_chance = 0
+    AND dclocal_read_repair_chance = 0.0
     AND speculative_retry = '95percentile'
     AND comment = 'Primary table for holding trace data. annotation_query column is a comma separated string (instead of a set) to permit SASI (CASSANDRA-11182)';
 
@@ -57,6 +58,7 @@ CREATE TABLE IF NOT EXISTS zipkin2.trace_by_service_span (
     AND default_time_to_live =  259200
     AND gc_grace_seconds = 3600
     AND read_repair_chance = 0
+    AND dclocal_read_repair_chance = 0
     AND speculative_retry = '95percentile'
     AND comment = 'Secondary table for looking up a trace by a service, or service and span. span column may be blank (when only looking up by service). bucket column adds time bucketing to the partition key, values are microseconds rounded to a pre-configured interval (typically one day). ts column is start timestamp of the span as time-uuid, truncated to millisecond precision. duration column is span duration, rounded up to tens of milliseconds (or hundredths of seconds)';
 
@@ -70,6 +72,7 @@ CREATE TABLE IF NOT EXISTS zipkin2.span_by_service (
     AND default_time_to_live =  259200
     AND gc_grace_seconds = 3600
     AND read_repair_chance = 0
+    AND dclocal_read_repair_chance = 0
     AND speculative_retry = '95percentile'
     AND comment = 'Secondary table for looking up span names by a service name.';
 
@@ -101,4 +104,5 @@ CREATE TABLE IF NOT EXISTS zipkin2.dependency (
     AND default_time_to_live =  259200
     AND gc_grace_seconds = 3600
     AND read_repair_chance = 0
+    AND dclocal_read_repair_chance = 0
     AND comment = 'Holder for each days generation of zipkin2.DependencyLink';
